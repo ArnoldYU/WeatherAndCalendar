@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     vp1.setVisibility(View.GONE);
                     vp2.setVisibility(View.GONE);
 //                    vp3.setVisibility(View.VISIBLE);
-                    Intent intent=new Intent();
-                    intent.setClass(MainActivity.this,WeatherActivity.class);
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, WeatherActivity.class);
                     startActivity(intent);
                     return true;
             }
@@ -66,19 +66,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle bundle1 = new Bundle();
-        Bundle bundle2 = new Bundle();
-        Bundle bundle3 = new Bundle();
+        Bundle bundle;
 
-        List<Fragment> fragments1=new ArrayList<Fragment>();
-        List<Fragment> fragments2=new ArrayList<Fragment>();
-        List<Fragment> fragments3=new ArrayList<Fragment>();
+        List<Fragment> fragments1 = new ArrayList<Fragment>();
+        List<Fragment> fragments2 = new ArrayList<Fragment>();
+        List<Fragment> fragments3 = new ArrayList<Fragment>();
 
+        String cityname[]={"哈尔滨","北京"};
         String cityname1 = "北京";
         String cityname2 = "哈尔滨";
         String cityname3 = "石家庄";
 
-        fragments1.add(new weatherview());
+        for (int i=0;i<2;i++){
+            bundle = new Bundle();
+            bundle.putString("City",cityname[i]);
+            fragments1.add(new weatherview());
+            fragments1.get(i).setArguments(bundle);
+        }
+
 
 //        bundle1.putString("City", cityname1);
 //        fragments1.add(new test2());
@@ -96,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
 //        fragments1.add(new test2());
 //        fragments1.get(0).setArguments(bundle1);
 //
-        bundle2.putString("City", cityname2);
+        bundle=new Bundle();
+        bundle.putString("City", cityname1);
         fragments1.add(new test2());
-        fragments1.get(1).setArguments(bundle2);
+        fragments1.get(2).setArguments(bundle);
 ////
 //        bundle3.putString("City", cityname3);
 //        fragments1.add(new test2());
@@ -112,14 +118,14 @@ public class MainActivity extends AppCompatActivity {
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments1);
 //
 //        //设定适配器
-        vp1 = (ViewPager)findViewById(R.id.viewpager);
+        vp1 = (ViewPager) findViewById(R.id.viewpager);
         vp1.setAdapter(adapter);
 
         vp1.setOnPageChangeListener(new PagerListener());
 
         adapter = new FragAdapter(getSupportFragmentManager(), fragments2);
 
-        vp2 = (ViewPager)findViewById(R.id.viewpager1);
+        vp2 = (ViewPager) findViewById(R.id.viewpager1);
         vp2.setAdapter(adapter);
 
         vp2.setOnPageChangeListener(new PagerListener());
@@ -130,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
 //        vp3.setAdapter(adapter);
 //
 //        vp3.setOnPageChangeListener(new PagerListener());
-
-
 
 
 //        mTextMessage = (TextView) findViewById(R.id.message);
@@ -189,10 +193,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             // TODO 自动生成的方法存根
-            try{
+            try {
 //            tipsTv.setText(String.valueOf(position+1));
             } catch (Exception e) {
-                Log.d("sda","saddas");
+                Log.d("sda", "saddas");
             }
 
         }

@@ -75,19 +75,18 @@ public class weatherview extends Fragment {
     private com.example.arnold.weather.fragement.weatherallview.Today24HourView myToday24HourView;
     private IndexHorizontalScrollView indexHorizontalScrollView;
     private Today24HourView today24HourView;
-
+    private String mycity = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.weatherview, container, false);
 //        loadChart();
-        String mycity = null;
-//        Bundle bundle = this.getArguments();
-//        if (bundle != null) {
-//            mycity = bundle.getString("City");
-//        }
-//        System.out.println(weatherList.size());
-        mycity="哈尔滨";
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mycity = bundle.getString("City");
+        }
+        System.out.println(weatherList.size());
         init(view, mycity);
         System.out.println("1");
         initViews(view);
@@ -97,8 +96,8 @@ public class weatherview extends Fragment {
 
     private void initViews(View view) {
         System.out.println("2");
-        indexHorizontalScrollView = (IndexHorizontalScrollView)view.findViewById(R.id.indexHorizontalScrollView);
-        today24HourView = (Today24HourView)view.findViewById(R.id.today24HourView);
+        indexHorizontalScrollView = (IndexHorizontalScrollView) view.findViewById(R.id.indexHorizontalScrollView);
+        today24HourView = (Today24HourView) view.findViewById(R.id.today24HourView);
         indexHorizontalScrollView.setToday24HourView(today24HourView);
     }
 
@@ -122,14 +121,13 @@ public class weatherview extends Fragment {
 
         temperaturetoday = (TextView) view.findViewById(R.id.temperaturetoday);
         temperaturetomorrow = (TextView) view.findViewById(R.id.temperaturetomorrow);
-        weathertoday = (TextView)view.findViewById(R.id.weathertoday);
-        weathertomorrow = (TextView)view.findViewById(R.id.weathertomorrow);
+        weathertoday = (TextView) view.findViewById(R.id.weathertoday);
+        weathertomorrow = (TextView) view.findViewById(R.id.weathertomorrow);
         sunriseTime = (TextView) view.findViewById(R.id.sunuptime);
         sunsetTime = (TextView) view.findViewById(R.id.sundowntime);
 
-        weatherimgtoday = (ImageView)view.findViewById(R.id.weatherimgtoday);
-        weatherimgtomorrow = (ImageView)view.findViewById(R.id.weatherimgtomorrow);
-
+        weatherimgtoday = (ImageView) view.findViewById(R.id.weatherimgtoday);
+        weatherimgtomorrow = (ImageView) view.findViewById(R.id.weatherimgtomorrow);
 
 
 //        wind = (TextView) view.findViewById(R.id.wind);
@@ -201,8 +199,6 @@ public class weatherview extends Fragment {
 //        WeatherAdapter adapter = new WeatherAdapter(getActivity(), R.layout.hourly_weather, weatherList);
 //        System.out.println(weatherList.size());
 //        listview.setAdapter(adapter);
-        System.out.println("3333"+weatherList.size());
-        System.out.println("2");
 //        Today24HourView.changesize(weatherList.size());
 //        myToday24HourView = new com.example.arnold.weather.fragement.weatherallview.Today24HourView(getActivity());
 //
@@ -212,14 +208,122 @@ public class weatherview extends Fragment {
 //////        indexHorizontalScrollView.setToday24HourView(myToday24HourView);
 //        indexHorizontalScrollView.addView(myToday24HourView);
 
-
-        temperaturetoday.setText(sharedPreferences.getString("temp","未知"));
-        temperaturetomorrow.setText(sharedPreferences.getString("temptomorrow","未知"));
-        weathertoday.setText(sharedPreferences.getString("dayWeather","未知"));
-        weathertomorrow.setText(sharedPreferences.getString("dayWeather_tomorrow","未知"));
+        weatherimgtoday.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences.getString("code", "999"))));
+        weatherimgtomorrow.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences.getString("code_tomorrow", "999"))));
+        temperaturetoday.setText(sharedPreferences.getString("temp", "未知"));
+        temperaturetomorrow.setText(sharedPreferences.getString("temptomorrow", "未知"));
+        weathertoday.setText(sharedPreferences.getString("dayWeather", "未知"));
+        weathertomorrow.setText(sharedPreferences.getString("dayWeather_tomorrow", "未知"));
         sunriseTime.setText("日出：" + sharedPreferences.getString("sunriseTime", "未知"));
         sunsetTime.setText("日落：" + sharedPreferences.getString("sunsetTime", "未知"));
-        Toast.makeText(getActivity(), "已经是最新数据了", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), mycity+"已经是最新数据了", Toast.LENGTH_SHORT).show();
 //        weatherRefresh.setText("更新数据");
+    }
+
+    public int returnbackground(int code) {
+        switch (code) {
+            case 100:
+                return R.mipmap.w0;
+            case 101:
+                return R.drawable.a101;
+            case 102:
+                return R.mipmap.w1;
+            case 103:
+                return R.mipmap.w2;
+            case 104:
+                return R.drawable.a104;
+            case 200:
+                return R.drawable.a200;
+            case 201:
+                return R.drawable.a201;
+            case 202:
+                return R.drawable.a202;
+            case 203:
+                return R.drawable.a203;
+            case 204:
+                return R.drawable.a204;
+            case 205:
+                return R.drawable.a205;
+            case 206:
+                return R.drawable.a206;
+            case 207:
+                return R.drawable.a207;
+            case 208:
+                return R.drawable.a208;
+            case 209:
+                return R.drawable.a209;
+            case 210:
+                return R.drawable.a210;
+            case 212:
+                return R.drawable.a212;
+            case 213:
+                return R.drawable.a213;
+            case 300:
+                return R.mipmap.w3;
+            case 301:
+                return R.mipmap.w3;
+            case 302:
+                return R.mipmap.w4;
+            case 303:
+                return R.mipmap.w5;
+            case 304:
+                return R.drawable.a304;
+            case 305:
+                return R.mipmap.w7;
+            case 306:
+                return R.mipmap.w8;
+            case 307:
+                return R.mipmap.w9;
+            case 308:
+                return R.mipmap.w10;
+            case 309:
+                return R.drawable.a309;
+            case 310:
+                return R.drawable.a310;
+            case 311:
+                return R.drawable.a311;
+            case 312:
+                return R.drawable.a312;
+            case 313:
+                return R.drawable.a313;
+            case 400:
+                return R.mipmap.w7;
+            case 401:
+                return R.mipmap.w8;
+            case 402:
+                return R.mipmap.w14;
+            case 403:
+                return R.mipmap.w15;
+            case 404:
+                return R.mipmap.w16;
+            case 405:
+                return R.drawable.a405;
+            case 406:
+                return R.drawable.a406;
+            case 407:
+                return R.drawable.a407;
+            case 500:
+                return R.drawable.a500;
+            case 501:
+                return R.drawable.a501;
+            case 502:
+                return R.drawable.a502;
+            case 503:
+                return R.drawable.a503;
+            case 504:
+                return R.drawable.a504;
+            case 508:
+                return R.drawable.a508;
+            case 999:
+                return R.drawable.a999;
+            case 507:
+                return R.drawable.a507;
+            case 900:
+                return R.drawable.a900;
+            case 901:
+                return R.drawable.a901;
+
+        }
+        return R.drawable.a999;
     }
 }
