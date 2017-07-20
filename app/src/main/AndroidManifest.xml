@@ -44,6 +44,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".weathergetbyinternate.Activity.WeatherActivity">
+
+        </activity>
+
+        <!--<activity android:name=".fragement.test2">-->
+            <!---->
+        <!--</activity>-->
     </application>
 
 </manifest>

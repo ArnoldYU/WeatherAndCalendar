@@ -10,19 +10,44 @@
     tools:context="com.example.arnold.weather.MainActivity"
     android:weightSum="1">
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp"><![CDATA[>
-        ]]>
-    </android.support.v4.view.ViewPager>
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/navigation"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </android.support.v4.view.ViewPager>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/navigation_drawer_header"
+            app:menu="@menu/navigation_drawer_menu" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager1"
@@ -33,9 +58,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        android:layout_marginTop="0dp"><![CDATA[>
-        ]]>
+        android:visibility="gone">
+
     </android.support.v4.view.ViewPager>
 
     <android.support.v4.view.ViewPager
@@ -47,8 +71,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        android:layout_marginTop="0dp"><![CDATA[>
+        android:visibility="gone"><![CDATA[>
         ]]>
     </android.support.v4.view.ViewPager>
 

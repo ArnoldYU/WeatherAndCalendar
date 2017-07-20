@@ -60,6 +60,7 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
 //        if (getSupportActionBar() != null) {
 //            getSupportActionBar().hide();
 //        }
+        System.out.println(weatherList.size());
         init();
     }
 
@@ -158,6 +159,7 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
         pop.setText("降水概率：" + sharedPreferences.getString("pop", "未知"));
         updateTime.setText("发布时间:" + sharedPreferences.getString("updateTime", "未知"));
         WeatherAdapter adapter = new WeatherAdapter(this, R.layout.hourly_weather, weatherList);
+        System.out.println(weatherList.size());
         listview.setAdapter(adapter);
         Toast.makeText(WeatherActivity.this, "已经是最新数据了", Toast.LENGTH_SHORT).show();
         weatherRefresh.setText("更新数据");

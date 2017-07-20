@@ -97,9 +97,6 @@ public class ChooseAreaActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
         weatherDB = WeatherDB.getInstance(this);
-        if (weatherDB == null ) {
-            System.out.println("weatherDB is null");
-        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3) {

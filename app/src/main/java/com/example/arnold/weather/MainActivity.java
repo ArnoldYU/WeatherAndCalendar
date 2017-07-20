@@ -12,21 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.arnold.weather.fragement.calendarviewall.ChangeBusiness;
 import com.example.arnold.weather.fragement.calendarviewall.calendarview;
-import com.example.arnold.weather.fragement.meview;
 import com.example.arnold.weather.fragement.test;
-import com.example.arnold.weather.fragement.test1;
-import com.example.arnold.weather.fragement.weatherallview.weatherview1;
-import com.example.arnold.weather.fragement.weatherallview.weatherview2;
-import com.example.arnold.weather.fragement.weatherallview.weatherview3;
-import com.example.arnold.weather.fragement.weatherallview.weatherview4;
-import com.example.arnold.weather.fragement.weatherallview.weatherview5;
-import com.example.arnold.weather.fragement.weatherallview.weatherview6;
-import com.example.arnold.weather.fragement.weatherallview.weatherview7;
-import com.example.arnold.weather.fragement.weatherallview.weatherview8;
+import com.example.arnold.weather.fragement.test2;
 import com.example.arnold.weather.fragement.weatherallview.weatherview;
-import com.example.arnold.weather.weathergetbyinternate.Activity.ChooseAreaActivity;
 import com.example.arnold.weather.weathergetbyinternate.Activity.WeatherActivity;
 
 import java.lang.reflect.Method;
@@ -63,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     vp2.setVisibility(View.GONE);
 //                    vp3.setVisibility(View.VISIBLE);
                     Intent intent=new Intent();
-                    intent.setClass(MainActivity.this,test1.class);
+                    intent.setClass(MainActivity.this,WeatherActivity.class);
                     startActivity(intent);
                     return true;
             }
@@ -77,22 +66,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle bundle1 = new Bundle();
+        Bundle bundle2 = new Bundle();
+        Bundle bundle3 = new Bundle();
 
         List<Fragment> fragments1=new ArrayList<Fragment>();
         List<Fragment> fragments2=new ArrayList<Fragment>();
         List<Fragment> fragments3=new ArrayList<Fragment>();
 
-        fragments1.add(new weatherview());
-        fragments1.add(new test());
-//        fragments1.add(new weatherview1());
-//        fragments1.add(new weatherview2());
-//        fragments1.add(new weatherview3());
-//        fragments1.add(new weatherview4());
-//        fragments1.add(new weatherview5());
-//        fragments1.add(new weatherview6());
-//        fragments1.add(new weatherview7());
-//        fragments1.add(new weatherview8());
+        String cityname1 = "北京";
+        String cityname2 = "哈尔滨";
+        String cityname3 = "石家庄";
 
+        fragments1.add(new weatherview());
+
+//        bundle1.putString("City", cityname1);
+//        fragments1.add(new test2());
+//        fragments1.get(1).setArguments(bundle1);
+
+//        bundle2.putString("City", cityname2);
+//        fragments1.add(new test2());
+//        fragments1.get(2).setArguments(bundle2);
+////
+//        bundle3.putString("City", cityname3);
+//        fragments1.add(new test2());
+//        fragments1.get(3).setArguments(bundle3);
+
+//        bundle1.putString("City", cityname1);
+//        fragments1.add(new test2());
+//        fragments1.get(0).setArguments(bundle1);
+//
+        bundle2.putString("City", cityname2);
+        fragments1.add(new test2());
+        fragments1.get(1).setArguments(bundle2);
+////
+//        bundle3.putString("City", cityname3);
+//        fragments1.add(new test2());
+//        fragments1.get(2).setArguments(bundle3);
 
         fragments2.add(new calendarview());
 

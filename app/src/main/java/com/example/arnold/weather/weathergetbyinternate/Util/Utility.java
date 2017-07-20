@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.example.arnold.weather.fragement.test2;
+import com.example.arnold.weather.fragement.weatherallview.weatherview;
 import com.example.arnold.weather.weathergetbyinternate.Activity.WeatherActivity;
 import com.example.arnold.weather.weathergetbyinternate.Database.WeatherDB;
 import com.example.arnold.weather.weathergetbyinternate.Model.City;
@@ -112,11 +114,20 @@ public class Utility {
             //更新时间
             JSONObject update = (JSONObject) basic.get("update");
             JSONArray daily_forecast = (JSONArray) first_object.get("daily_forecast");
+
             JSONObject daily_forecast_first = (JSONObject) daily_forecast.get(0);
+            JSONObject daily_forecast_second = (JSONObject) daily_forecast.get(1);
+
+//--------------------------------------------
+            //今明两天天气
             JSONObject cond = (JSONObject) daily_forecast_first.get("cond");
-            //温度
-            Log.d("aaaaa", "cond");
+            JSONObject cond_tomorrow = (JSONObject) daily_forecast_second.get("cond");
+            //今明两天的温度
             JSONObject temp = (JSONObject) daily_forecast_first.get("tmp");
+            JSONObject temptomorrow = (JSONObject) daily_forecast_second.get("tmp");
+            //今明两天天气图标
+
+//--------------------------------------------
 
             JSONObject astro = (JSONObject) daily_forecast_first.get("astro");
 
@@ -125,7 +136,10 @@ public class Utility {
             JSONArray hourly_forecast = (JSONArray) first_object.get("hourly_forecast");
 
             WeatherActivity.weatherList.clear();
-
+//城市名
+            String cityName = basic.getString("city");
+            SharedPreferences.Editor editor = context.getSharedPreferences(cityName + "1", Context.MODE_PRIVATE).edit();
+            int level = 0;
             for (int i = 0; i < hourly_forecast.length(); i++) {
                 JSONObject json = hourly_forecast.getJSONObject(i);
                 JSONObject json_wind = (JSONObject) json.get("wind");
@@ -138,27 +152,91 @@ public class Utility {
                 String hourly_pop = "降水概率：" + json.getString("pop");
                 String hourly_wind = "风力：" + dir + " " + sc + "级";
                 HourlyWeather weather = new HourlyWeather(hourly_clock, hourly_temp, hourly_pop, hourly_wind);
-                WeatherActivity.weatherList.add(weather);
+
+                switch (sc) {
+                    case "无风":
+                        level = 1;
+                        break;
+                    case "轻风":
+                        level = 2;
+                        break;
+                    case "微风":
+                        level = 3;
+                        break;
+                    case "和风":
+                        level = 4;
+                        break;
+                    case "轻劲风":
+                        level = 5;
+                        break;
+                    case "强风":
+                        level = 6;
+                        break;
+                    case "疾风":
+                        level = 7;
+                        break;
+                    case "大风":
+                        level = 8;
+                        break;
+                    case "烈风":
+                        level = 9;
+                        break;
+                    case "狂风":
+                        level = 10;
+                        break;
+                    case "暴风":
+                        level = 11;
+                        break;
+                    case "台风":
+                        level = 12;
+                        break;
+                    default:
+                        level = 3;
+                }
+                System.out.println(hourly_clock);
+                editor.putString("hourly_clock" + i, hourly_clock);
+                System.out.println(json.getString("tmp"));
+                editor.putString("hourly_temp" + i, json.getString("tmp"));
+                System.out.println(level);
+                editor.putString("hourly_wind" + i, String.valueOf(level));
+//                WeatherActivity.weatherList.add(weather);
+                test2.weatherList.add(weather);
+                weatherview.weatherList.add(weather);
             }
-            //日出
-            String sunriseTime = astro.getString("sr");
-            //日落
-            String sunsetTime = astro.getString("ss");
-            //白天天气
-            String dayWeather = cond.getString("txt_d");
+            editor.putInt("hourly_forecast_length", hourly_forecast.length());
+            editor.commit();
+
+
             //夜晚天气
             String nightWeather = cond.getString("txt_n");
             //风力
             String windText = wind.getString("dir") + " " + wind.getString("sc") + "级";
             //降水概率
             String pop = daily_forecast_first.getString("pop");
-            //温度
-            String tempText = temp.getString("min") + "℃~" + temp.getString("max") + "℃";
+//--------------------------------------------------------------
+            //日出
+            String sunriseTime = astro.getString("sr");
+            //日落
+            String sunsetTime = astro.getString("ss");
+            //今天天气
+            String dayWeather = cond.getString("txt_n");
+            //明天天气
+            String dayWeather_tomorrow = cond_tomorrow.getString("txt_n");
+            //今天温度
+            String tempText = temp.getString("min") + "/" + temp.getString("max") + "℃";
+            //明日温度
+            String tempText_tomorrow = temptomorrow.getString("min") + "/" + temp.getString("max") + "℃";
+            //今天天气图标
+            String code = cond.getString("code_n");
+            //明天天气图标
+            String code_tomorrow = cond_tomorrow.getString("code_n");
+
+//--------------------------------------------------------------
             //更新时间
             String updateTime = update.getString("loc");
-            //城市名
-            String cityName = basic.getString("city");
-            saveWeatherInfo(context, cityName, sunriseTime, sunsetTime, dayWeather, nightWeather, windText, pop, tempText, updateTime);
+
+            saveWeatherInfo(context, cityName, sunriseTime, sunsetTime, dayWeather, nightWeather, windText, pop, tempText, updateTime,
+                    tempText_tomorrow, dayWeather_tomorrow, code, code_tomorrow);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,16 +244,22 @@ public class Utility {
 
     private static void saveWeatherInfo(Context context, String cityName,
                                         String sunriseTime, String sunsetTime, String dayWeather, String nightWeather,
-                                        String windText, String pop, String tempText, String updateTime) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("Weather", Context.MODE_PRIVATE).edit();
+                                        String windText, String pop, String tempText, String updateTime, String tempText_tomorrow,
+                                        String dayWeather_tomorrow, String code, String code_tomorrow) {
+
+        SharedPreferences.Editor editor = context.getSharedPreferences(cityName, Context.MODE_PRIVATE).edit();
         editor.putString("cityName", cityName);
-        editor.putString("sunriseTime", sunriseTime);
-        editor.putString("sunsetTime", sunsetTime);
-        editor.putString("dayWeather", dayWeather);
+        editor.putString("sunriseTime", sunriseTime);//
+        editor.putString("sunsetTime", sunsetTime);//
+        editor.putString("dayWeather", dayWeather);//
+        editor.putString("dayWeather_tomorrow", dayWeather_tomorrow);//
         editor.putString("nightWeather", nightWeather);
         editor.putString("wind", windText);
         editor.putString("pop", pop);
-        editor.putString("temp", tempText);
+        editor.putString("temp", tempText);//
+        editor.putString("temptomorrow", tempText_tomorrow);//
+        editor.putString("code",code);//
+        editor.putString("code_tomorrow",code_tomorrow);//
         editor.putString("updateTime", updateTime);
         editor.commit();
     }

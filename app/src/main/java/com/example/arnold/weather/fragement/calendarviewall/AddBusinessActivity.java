@@ -187,6 +187,7 @@ public class AddBusinessActivity extends AppCompatActivity {
                                 @Override
                                 public void onDateSet(DatePicker view, int year,
                                                       int monthOfYear, int dayOfMonth) {
+                                    monthOfYear += 1;
                                     show1 = year + "年" + monthOfYear
                                             + "月" + dayOfMonth + "日";
                                     Toast.makeText(AddBusinessActivity.this, show1, 0).show();
@@ -272,7 +273,7 @@ public class AddBusinessActivity extends AppCompatActivity {
                 if (business_location.length() == 0) {
                     business_location = "(无地点)";
                 }
-                System.out.println("'"+business_location+"'");
+                System.out.println("'" + business_location + "'");
                 OrderDao.insert(BusinessDate, business_name, startdate, enddate, business_location);
                 AddBusinessActivity.this.setResult(RESULT_CANCELED, AddBusinessActivity.this.getIntent().putExtras(bundle));
                 AddBusinessActivity.this.finish();

@@ -92,10 +92,10 @@ public class ChangeBusiness extends AppCompatActivity {
         business_beginTime = bundle.getString("changebusiness_beginTime");
         business_endTime = bundle.getString("changebusiness_endTime");
 
-        change_business_location = (EditText)findViewById(R.id.changebusiness_myeditext);
-        change_business_name = (EditText)findViewById(R.id.changebusiness_getbusinessname);
-        yes = (Button)findViewById(R.id.changebusiness_yes);
-        no = (Button)findViewById(R.id.changebusiness_no);
+        change_business_location = (EditText) findViewById(R.id.changebusiness_myeditext);
+        change_business_name = (EditText) findViewById(R.id.changebusiness_getbusinessname);
+        yes = (Button) findViewById(R.id.changebusiness_yes);
+        no = (Button) findViewById(R.id.changebusiness_no);
 
         System.out.println(change_business_name);
         //初始化设置事务事件与事务地点
@@ -228,6 +228,7 @@ public class ChangeBusiness extends AppCompatActivity {
                                 @Override
                                 public void onDateSet(DatePicker view, int year,
                                                       int monthOfYear, int dayOfMonth) {
+                                    monthOfYear += 1;
                                     show1 = year + "年" + monthOfYear
                                             + "月" + dayOfMonth + "日";
                                     Toast.makeText(ChangeBusiness.this, show1, 0).show();
@@ -313,7 +314,7 @@ public class ChangeBusiness extends AppCompatActivity {
                     business_location = "(无地点)";
                 }
                 System.out.println("'" + business_location + "'");
-                OrderDao.change(id,BusinessDate, business_name, startdate, enddate, business_location);
+                OrderDao.change(id, BusinessDate, business_name, startdate, enddate, business_location);
                 ChangeBusiness.this.setResult(RESULT_CANCELED, ChangeBusiness.this.getIntent().putExtras(bundle));
                 ChangeBusiness.this.finish();
                 finish();
