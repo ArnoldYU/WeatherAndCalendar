@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.example.arnold.weather.fragement.test2;
@@ -114,18 +116,78 @@ public class Utility {
             //更新时间
             JSONObject update = (JSONObject) basic.get("update");
             JSONArray daily_forecast = (JSONArray) first_object.get("daily_forecast");
+            String cityName = basic.getString("city");
 
             JSONObject daily_forecast_first = (JSONObject) daily_forecast.get(0);
             JSONObject daily_forecast_second = (JSONObject) daily_forecast.get(1);
+            JSONObject daily_forecast_third = (JSONObject) daily_forecast.get(2);
+            JSONObject daily_forecast_fourth = (JSONObject) daily_forecast.get(3);
+            JSONObject daily_forecast_fifth = (JSONObject) daily_forecast.get(4);
+            JSONObject daily_forecast_sixth = (JSONObject) daily_forecast.get(5);
+            JSONObject daily_forecast_seventh = (JSONObject) daily_forecast.get(6);
+            JSONObject nowday = null;
+            //获得近七天的信息
+            SharedPreferences.Editor editor1 = context.getSharedPreferences(cityName + "2", Context.MODE_PRIVATE).edit();
+            String forecastdate;
+            String forecastweather1;
+            String forecastimage1;
+            String forecasttemp1;
+            String forecasttemp2;
+            String forecastimage2;
+            String forecastweather2;
+            String forecastwind1;
+            String forecastwind2;
+            int lala;
+            for (int i = 0; i < 7; i++) {
+                lala=i+1;
+                switch (i){
+                    case 0:nowday = daily_forecast_first;break;
+                    case 1:nowday = daily_forecast_second;break;
+                    case 2:nowday = daily_forecast_third;break;
+                    case 3:nowday = daily_forecast_fourth;break;
+                    case 4:nowday = daily_forecast_fifth;break;
+                    case 5:nowday = daily_forecast_sixth;break;
+                    case 6:nowday = daily_forecast_seventh;break;
+                    default:
+                }
+//                System.out.println("noday:"+nowday.getString("date"));
+                forecastdate = nowday.getString("date");
+                forecastdate = forecastdate.substring(5);
+                JSONObject forecastcond = (JSONObject)nowday.get("cond");
+                JSONObject forecasttmp = (JSONObject)nowday.get("tmp");
+                JSONObject forecastwind = (JSONObject)nowday.get("wind");
+                forecasttemp1 = forecasttmp.getString("max");
+                forecasttemp2 = forecasttmp.getString("min");
+                forecastweather1 = forecastcond.getString("txt_d");
+                forecastimage1 = forecastcond.getString("code_d");
+                forecastweather2 = forecastcond.getString("txt_n");
+                forecastimage2 = forecastcond.getString("code_n");
+                forecastwind1 = forecastwind.getString("dir");
+                forecastwind2 = forecastwind.getString("sc")+"级";
+
+                editor1.putString("forecast"+lala+"date",forecastdate);
+                editor1.putString("forecast"+lala+"temp1",forecasttemp1);
+                editor1.putString("forecast"+lala+"temp2",forecasttemp2);
+                editor1.putString("forecast"+lala+"weather1",forecastweather1);
+                editor1.putString("forecast"+lala+"image1",forecastimage1);
+                editor1.putString("forecast"+lala+"weather2",forecastweather2);
+                editor1.putString("forecast"+lala+"image2",forecastimage2);
+                editor1.putString("forecast"+lala+"wind1",forecastwind1);
+                editor1.putString("forecast"+lala+"wind2",forecastwind2);
+
+            }
+            editor1.commit();
 
 //--------------------------------------------
+
+            //实况信息
+            JSONObject now = (JSONObject) first_object.get("now");
             //今明两天天气
             JSONObject cond = (JSONObject) daily_forecast_first.get("cond");
             JSONObject cond_tomorrow = (JSONObject) daily_forecast_second.get("cond");
             //今明两天的温度
             JSONObject temp = (JSONObject) daily_forecast_first.get("tmp");
             JSONObject temptomorrow = (JSONObject) daily_forecast_second.get("tmp");
-            //今明两天天气图标
 
 //--------------------------------------------
 
@@ -137,12 +199,12 @@ public class Utility {
 
             WeatherActivity.weatherList.clear();
 //城市名
-            String cityName = basic.getString("city");
             SharedPreferences.Editor editor = context.getSharedPreferences(cityName + "1", Context.MODE_PRIVATE).edit();
             int level = 0;
             for (int i = 0; i < hourly_forecast.length(); i++) {
                 JSONObject json = hourly_forecast.getJSONObject(i);
                 JSONObject json_wind = (JSONObject) json.get("wind");
+                JSONObject json_cond = (JSONObject) json.get("cond");
                 String date = json.getString("date");
                 String[] array = date.split(" ");
                 String dir = json_wind.getString("dir");
@@ -151,53 +213,16 @@ public class Utility {
                 String hourly_temp = "温度：" + json.getString("tmp") + "℃";
                 String hourly_pop = "降水概率：" + json.getString("pop");
                 String hourly_wind = "风力：" + dir + " " + sc + "级";
+                String hourly_code = json_cond.getString("code");
                 HourlyWeather weather = new HourlyWeather(hourly_clock, hourly_temp, hourly_pop, hourly_wind);
 
-                switch (sc) {
-                    case "无风":
-                        level = 1;
-                        break;
-                    case "轻风":
-                        level = 2;
-                        break;
-                    case "微风":
-                        level = 3;
-                        break;
-                    case "和风":
-                        level = 4;
-                        break;
-                    case "轻劲风":
-                        level = 5;
-                        break;
-                    case "强风":
-                        level = 6;
-                        break;
-                    case "疾风":
-                        level = 7;
-                        break;
-                    case "大风":
-                        level = 8;
-                        break;
-                    case "烈风":
-                        level = 9;
-                        break;
-                    case "狂风":
-                        level = 10;
-                        break;
-                    case "暴风":
-                        level = 11;
-                        break;
-                    case "台风":
-                        level = 12;
-                        break;
-                    default:
-                        level = 3;
-                }
-                System.out.println(hourly_clock);
+                editor.putString("hourly_code" + i, hourly_code);
+                level = returnlevel(sc);
+//                System.out.println(hourly_clock);
                 editor.putString("hourly_clock" + i, hourly_clock);
-                System.out.println(json.getString("tmp"));
+//                System.out.println(json.getString("tmp"));
                 editor.putString("hourly_temp" + i, json.getString("tmp"));
-                System.out.println(level);
+//                System.out.println(level);
                 editor.putString("hourly_wind" + i, String.valueOf(level));
 //                WeatherActivity.weatherList.add(weather);
                 test2.weatherList.add(weather);
@@ -214,6 +239,9 @@ public class Utility {
             //降水概率
             String pop = daily_forecast_first.getString("pop");
 //--------------------------------------------------------------
+            String sc = wind.getString("sc");
+            String mywind = returnlevel(sc) + "级";
+
             //日出
             String sunriseTime = astro.getString("sr");
             //日落
@@ -230,13 +258,17 @@ public class Utility {
             String code = cond.getString("code_n");
             //明天天气图标
             String code_tomorrow = cond_tomorrow.getString("code_n");
+            //湿度
+            String hum = now.getString("hum");
+            //气压
+            String pres = now.getString("pres");
 
 //--------------------------------------------------------------
             //更新时间
             String updateTime = update.getString("loc");
 
             saveWeatherInfo(context, cityName, sunriseTime, sunsetTime, dayWeather, nightWeather, windText, pop, tempText, updateTime,
-                    tempText_tomorrow, dayWeather_tomorrow, code, code_tomorrow);
+                    tempText_tomorrow, dayWeather_tomorrow, code, code_tomorrow, hum, pres, mywind);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -245,7 +277,8 @@ public class Utility {
     private static void saveWeatherInfo(Context context, String cityName,
                                         String sunriseTime, String sunsetTime, String dayWeather, String nightWeather,
                                         String windText, String pop, String tempText, String updateTime, String tempText_tomorrow,
-                                        String dayWeather_tomorrow, String code, String code_tomorrow) {
+                                        String dayWeather_tomorrow, String code, String code_tomorrow, String hum, String pres,
+                                        String mywind) {
 
         SharedPreferences.Editor editor = context.getSharedPreferences(cityName, Context.MODE_PRIVATE).edit();
         editor.putString("cityName", cityName);
@@ -255,12 +288,61 @@ public class Utility {
         editor.putString("dayWeather_tomorrow", dayWeather_tomorrow);//
         editor.putString("nightWeather", nightWeather);
         editor.putString("wind", windText);
+        editor.putString("mywind", mywind);//
         editor.putString("pop", pop);
         editor.putString("temp", tempText);//
         editor.putString("temptomorrow", tempText_tomorrow);//
-        editor.putString("code",code);//
-        editor.putString("code_tomorrow",code_tomorrow);//
+        editor.putString("code", code);//
+        editor.putString("code_tomorrow", code_tomorrow);//
+        editor.putString("hum", hum);
+        editor.putString("pres", pres);
         editor.putString("updateTime", updateTime);
         editor.commit();
     }
+
+    private static int returnlevel(String sc) {
+        int level = 0;
+        switch (sc) {
+            case "无风":
+                level = 1;
+                break;
+            case "轻风":
+                level = 2;
+                break;
+            case "微风":
+                level = 3;
+                break;
+            case "和风":
+                level = 4;
+                break;
+            case "轻劲风":
+                level = 5;
+                break;
+            case "强风":
+                level = 6;
+                break;
+            case "疾风":
+                level = 7;
+                break;
+            case "大风":
+                level = 8;
+                break;
+            case "烈风":
+                level = 9;
+                break;
+            case "狂风":
+                level = 10;
+                break;
+            case "暴风":
+                level = 11;
+                break;
+            case "台风":
+                level = 12;
+                break;
+            default:
+                level = 3;
+        }
+        return level;
+    }
+
 }

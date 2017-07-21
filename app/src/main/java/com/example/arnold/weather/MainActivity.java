@@ -84,35 +84,18 @@ public class MainActivity extends AppCompatActivity {
             fragments1.get(i).setArguments(bundle);
         }
 
+//        bundle=new Bundle();
+//        bundle.putString("City", cityname1);
+//        fragments1.add(new test2());
+//        fragments1.get(0).setArguments(bundle);
+//        bundle=new Bundle();
+//        bundle.putString("City", cityname2);
+//        fragments1.add(new test2());
+//        fragments1.get(1).setArguments(bundle);
 
-//        bundle1.putString("City", cityname1);
-//        fragments1.add(new test2());
-//        fragments1.get(1).setArguments(bundle1);
 
-//        bundle2.putString("City", cityname2);
-//        fragments1.add(new test2());
-//        fragments1.get(2).setArguments(bundle2);
-////
-//        bundle3.putString("City", cityname3);
-//        fragments1.add(new test2());
-//        fragments1.get(3).setArguments(bundle3);
-
-//        bundle1.putString("City", cityname1);
-//        fragments1.add(new test2());
-//        fragments1.get(0).setArguments(bundle1);
-//
-        bundle=new Bundle();
-        bundle.putString("City", cityname1);
-        fragments1.add(new test2());
-        fragments1.get(2).setArguments(bundle);
-////
-//        bundle3.putString("City", cityname3);
-//        fragments1.add(new test2());
-//        fragments1.get(2).setArguments(bundle3);
 
         fragments2.add(new calendarview());
-
-
         fragments3.add(new test());
 
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments1);

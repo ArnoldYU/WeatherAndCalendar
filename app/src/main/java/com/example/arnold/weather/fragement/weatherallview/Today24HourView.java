@@ -39,6 +39,8 @@ public class Today24HourView extends View {
     private static final int MARGIN_LEFT_ITEM = 100; //左边预留宽度
     private static final int MARGIN_RIGHT_ITEM = 100; //右边预留宽度
 
+    private static int setcityname = 0;
+
     private static final int windyBoxAlpha = 80;
     private static final int windyBoxMaxHeight = 80;
     private static final int windyBoxMinHeight = 20;
@@ -63,25 +65,16 @@ public class Today24HourView extends View {
     private int minTemp = -10;
     private int maxWindy = 5;
     private int minWindy = 2;
-    //    private static int TEMP[] = {22, 23, 23, 23, 23,
-//            22, 23, 23, 23, 22,
-//            21, 21, 22, 22, 23,
-//            23, 24, 24, 25, 25,
-//            25, 26, 25, 24};
-//    private static int WINDY[] = {2, 2, 3, 3, 3,
-//            4, 4, 4, 3, 3,
-//            3, 4, 4, 4, 4,
-//            2, 2, 2, 3, 3,
-//            3, 5, 5, 5};
     private ArrayList TEMP;
     private ArrayList WINDY;
     private ArrayList HOUR;
+    private ArrayList WEATHER_RES;
 
-    private static final int WEATHER_RES[] = {R.mipmap.w0, R.mipmap.w1, R.mipmap.w3, -1, -1
-            , R.mipmap.w5, R.mipmap.w7, R.mipmap.w9, -1, -1
-            , -1, R.mipmap.w10, R.mipmap.w15, -1, -1
-            , -1, -1, -1, -1, -1
-            , R.mipmap.w18, -1, -1, R.mipmap.w19};
+    static class lalalala {
+        public static void setcity(String cityname) {
+//            setcityname = cityname+1;
+        }
+    }
 
     class lalalal extends Fragment {
         @Override
@@ -91,7 +84,13 @@ public class Today24HourView extends View {
         }
 
         public void mytest() {
-            sharedPreferences = Today24HourView.this.getContext().getSharedPreferences("哈尔滨1", Context.MODE_PRIVATE);
+            String mycode;
+            String cityname[] = {"哈尔滨1", "北京1"};
+
+
+            sharedPreferences = Today24HourView.this.getContext().getSharedPreferences(cityname[setcityname], Context.MODE_PRIVATE);
+            System.out.println("city:   " + cityname[setcityname]);
+            setcityname++;
             System.out.println("dsasdasda" + sharedPreferences.getInt("hourly_forecast_length", 0));
             ITEM_SIZE = sharedPreferences.getInt("hourly_forecast_length", 0);
 
@@ -99,11 +98,17 @@ public class Today24HourView extends View {
             TEMP = new ArrayList();
             WINDY = new ArrayList();
             HOUR = new ArrayList();
+            WEATHER_RES = new ArrayList();
 
+            System.out.println("ITEM_SIZE=" + ITEM_SIZE);
             for (int i = 0; i < ITEM_SIZE; i++) {
+                mycode = sharedPreferences.getString("hourly_code" + i, "999");
                 TEMP.add(sharedPreferences.getString("hourly_temp" + i, "未知"));
                 WINDY.add(sharedPreferences.getString("hourly_wind" + i, "未知"));
                 HOUR.add(sharedPreferences.getString("hourly_clock" + i, "未知"));
+                WEATHER_RES.add(weatherview.returnbackground(Integer.valueOf(mycode)));
+                WEATHER_RES.add(-1);
+                WEATHER_RES.add(-1);
             }
         }
 
@@ -126,7 +131,7 @@ public class Today24HourView extends View {
 
     private void init() {
 
-        mWidth = MARGIN_LEFT_ITEM + MARGIN_RIGHT_ITEM + ITEM_SIZE * ITEM_WIDTH;
+        mWidth = MARGIN_LEFT_ITEM + MARGIN_RIGHT_ITEM + ITEM_SIZE * ITEM_WIDTH * 3;
         mHeight = 500; //暂时先写死
         tempBaseTop = (500 - bottomTextHeight) / 4;
         tempBaseBottom = (500 - bottomTextHeight) * 2 / 3;
@@ -173,24 +178,32 @@ public class Today24HourView extends View {
     //简单初始化下，后续改为由外部传入
     private void initHourItems() {
         listItems = new ArrayList<>();
+        int mytimes = 0;
+        String time = null;
+        int num[] = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9};
         for (int i = 0; i < ITEM_SIZE * 3; i++) {
-            System.out.println(i);
-            String time = null;
+//            System.out.println("i=" + i);
+
             int nexttemp = 0;
             int temp = 0;
-            time = HOUR.get(i % ITEM_SIZE).toString();
+            if (i == 0)
+                time = HOUR.get(num[i]).toString();
             if (i < ITEM_SIZE - 1) {
-                temp = Integer.valueOf(TEMP.get(i % ITEM_SIZE).toString());
-                nexttemp = Integer.valueOf(TEMP.get(i % ITEM_SIZE + 1).toString());
+                temp = Integer.valueOf(TEMP.get(num[i]).toString());
+                nexttemp = Integer.valueOf(TEMP.get(num[i] + 1).toString());
+            } else {
+                temp = Integer.valueOf(TEMP.get(num[i]).toString());
             }
-            System.out.println(time);
-            if (i % 3 == 0) {
 
+            if (i % ITEM_SIZE == 0) {
+                System.out.println(time);
             } else {
                 if (time.length() == 5) {
-                    time = Integer.valueOf(time.substring(0, 2))+1 + ":00";
+                    time = Integer.valueOf(time.substring(0, 2)) + 1 + ":00";
+//                    System.out.println("time2" + time);
                 } else {
                     time = "0" + Integer.valueOf(time.substring(0, 1)) + ":00";
+//                    System.out.println("time1" + time);
                 }
                 temp += (nexttemp - temp) / 2;
             }
@@ -198,7 +211,7 @@ public class Today24HourView extends View {
             int left = MARGIN_LEFT_ITEM + i * ITEM_WIDTH;
             int right = left + ITEM_WIDTH - 1;
             int top = (int) (mHeight - bottomTextHeight +
-                    (maxWindy - Integer.valueOf(WINDY.get(i % ITEM_SIZE).toString())) * 1.0 / (maxWindy - minWindy) * windyBoxSubHight
+                    (maxWindy - Integer.valueOf(WINDY.get(num[i]).toString())) * 1.0 / (maxWindy - minWindy) * windyBoxSubHight
                     - windyBoxMaxHeight);
             int bottom = mHeight - bottomTextHeight;
             Rect rect = new Rect(left, top, right, bottom);
@@ -207,10 +220,10 @@ public class Today24HourView extends View {
             HourItem hourItem = new HourItem();
             hourItem.windyBoxRect = rect;
             hourItem.time = time;
-            hourItem.windy = Integer.valueOf(WINDY.get(i % ITEM_SIZE).toString());
+            hourItem.windy = Integer.valueOf(WINDY.get(num[i]).toString());
             hourItem.temperature = temp;
             hourItem.tempPoint = point;
-            hourItem.res = WEATHER_RES[i];
+            hourItem.res = Integer.valueOf(WEATHER_RES.get(i).toString());
             listItems.add(hourItem);
         }
     }
