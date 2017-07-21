@@ -1,32 +1,29 @@
 package com.example.arnold.weather.fragement.weatherallview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.IDNA;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.textservice.TextInfo;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.arnold.weather.R;
-import com.example.arnold.weather.weathergetbyinternate.Adapter.WeatherAdapter;
 import com.example.arnold.weather.weathergetbyinternate.Model.HourlyWeather;
 import com.example.arnold.weather.weathergetbyinternate.Net.HttpUtil;
 import com.example.arnold.weather.weathergetbyinternate.Util.HttpCallbackListener;
 import com.example.arnold.weather.weathergetbyinternate.Util.Utility;
+
 
 import org.w3c.dom.Text;
 
@@ -62,10 +59,18 @@ public class weatherview extends Fragment {
     // 今日天气预测列表
     private ListView listview;
 
+    private boolean mode;
+
     public static List<HourlyWeather> weatherList = new ArrayList<>();
 
     private SharedPreferences sharedPreferences;
     private View view;
+
+    private TextView suggestion_comf;
+    private TextView suggestion_drsg;
+    private TextView suggestion_flu;
+    private TextView suggestion_sport;
+    private TextView suggestion_trav;
 
     private TextView forecast1day;
     private TextView forecast1date;
@@ -139,7 +144,6 @@ public class weatherview extends Fragment {
     private ImageView forecast7image1;
     private TextView forecast7temp1;
     private TextView forecast7temp2;
-    private ImageView forecast7image2;
     private TextView forecast7weather2;
     private TextView forecast7wind1;
     private TextView forecast7wind2;
@@ -161,11 +165,15 @@ public class weatherview extends Fragment {
     private String mycity = null;
     private SharedPreferences sharedPreferences1;
     private SharedPreferences sharedPreferences2;
+    private Button sharebutton;
+    private Button suggestionbutton;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.weatherview, container, false);
 //        loadChart();
+
+        mode = true;
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -188,6 +196,63 @@ public class weatherview extends Fragment {
 
     public void init(View view, String mycity) {
 
+        sharebutton = (Button) view.findViewById(R.id.sharedsend);
+
+        sharebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Information = null;
+
+
+                Information = "今日温度:" + sharedPreferences.getString("temp", "未知") + "\n" +
+                        "今日天气:" + sharedPreferences.getString("dayWeather", "未知") + "\n" +
+                        "出行建议:" + "\n" +
+                        sharedPreferences.getString("suggestion_comf_txt", "未知") + "\n" +
+                        sharedPreferences.getString("suggestion_drsg_txt", "未知") + "\n" +
+                        sharedPreferences.getString("suggestion_flu_txt", "未知") + "\n" +
+                        sharedPreferences.getString("suggestion_sport_txt", "未知") + "\n" +
+                        sharedPreferences.getString("suggestion_trav_txt", "未知") + "\n";
+
+                Uri smsToUri = Uri.parse("smsto:");
+                Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+                intent.putExtra("sms_body", Information);
+                startActivity(intent);
+            }
+        });
+
+        suggestion_comf = (TextView) view.findViewById(R.id.suggestion_comf_txt);
+        suggestion_drsg = (TextView) view.findViewById(R.id.suggestion_drsg_txt);
+        suggestion_flu = (TextView) view.findViewById(R.id.suggestion_flu_txt);
+        suggestion_sport = (TextView) view.findViewById(R.id.suggestion_sport_txt);
+        suggestion_trav = (TextView) view.findViewById(R.id.suggestion_trav_txt);
+
+        suggestionbutton = (Button) view.findViewById(R.id.suggestbutton);
+
+        suggestionbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mode) {
+                    suggestion_comf.setVisibility(view.VISIBLE);
+                    suggestion_drsg.setVisibility(view.VISIBLE);
+                    suggestion_flu.setVisibility(view.VISIBLE);
+                    suggestion_sport.setVisibility(view.VISIBLE);
+                    suggestion_trav.setVisibility(view.VISIBLE);
+                    sharebutton.setText("隐藏");
+                    mode = false;
+                } else {
+                    suggestion_comf.setVisibility(view.INVISIBLE);
+                    suggestion_drsg.setVisibility(view.INVISIBLE);
+                    suggestion_flu.setVisibility(view.INVISIBLE);
+                    suggestion_sport.setVisibility(view.INVISIBLE);
+                    suggestion_trav.setVisibility(view.INVISIBLE);
+                    sharebutton.setText("建议");
+                    mode = true;
+                }
+
+            }
+        });
+
+
         bigweather = (TextView) view.findViewById(R.id.bigweather);
         bigtempterature = (TextView) view.findViewById(R.id.bigtemperature);
         hum = (TextView) view.findViewById(R.id.textView7);
@@ -206,7 +271,7 @@ public class weatherview extends Fragment {
         String countyName = mycity;
         sharedPreferences = getActivity().getSharedPreferences(countyName, Context.MODE_PRIVATE);
         sharedPreferences1 = getActivity().getSharedPreferences(countyName + "1", Context.MODE_APPEND);
-        System.out.println("dsasdasd"+countyName + "1");
+        System.out.println("dsasdasd" + countyName + "1");
         sharedPreferences2 = getActivity().getSharedPreferences(countyName + "2", Context.MODE_APPEND);
         // 当countyName不为空
         if (!TextUtils.isEmpty(countyName)) {
@@ -259,6 +324,13 @@ public class weatherview extends Fragment {
     }
 
     private void showWeather() {
+
+        suggestion_comf.setText(sharedPreferences.getString("suggestion_comf_txt", "未知"));
+        suggestion_drsg.setText(sharedPreferences.getString("suggestion_drsg_txt", "未知"));
+        suggestion_flu.setText(sharedPreferences.getString("suggestion_flu_txt", "未知"));
+        suggestion_sport.setText(sharedPreferences.getString("suggestion_sport_txt", "未知"));
+        suggestion_trav.setText(sharedPreferences.getString("suggestion_trav_txt", "未知"));
+
         weatherimgtoday.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences.getString("code", "999"))));
         weatherimgtomorrow.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences.getString("code_tomorrow", "999"))));
         temperaturetoday.setText(sharedPreferences.getString("temp", "未知"));
@@ -269,7 +341,7 @@ public class weatherview extends Fragment {
         sunsetTime.setText("日落：" + sharedPreferences.getString("sunsetTime", "未知"));
         hum.setText(sharedPreferences.getString("hum", "未知") + "%");
         pres.setText(sharedPreferences.getString("pres", "未知") + "hPa");
-        bigtempterature.setText(sharedPreferences1.getString("hourly_temp0", "未知")+"°");
+        bigtempterature.setText(sharedPreferences1.getString("hourly_temp0", "未知") + "°");
         bigweather.setText(sharedPreferences.getString("dayWeather", "未知"));
         selectcityname.setText(mycity);
 
@@ -452,7 +524,7 @@ public class weatherview extends Fragment {
         forecast3wind1 = (TextView) view.findViewById(R.id.forecast3wind1);
         forecast3wind2 = (TextView) view.findViewById(R.id.forecast3wind2);
 
-        forecast3day.setText(weekDays[(week+1)%7]);
+        forecast3day.setText(weekDays[(week + 1) % 7]);
         forecast3date.setText(sharedPreferences2.getString("forecast3date", "未知"));
         forecast3weather1.setText(sharedPreferences2.getString("forecast3weather1", "未知"));
         forecast3image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast3image1", "999"))));
@@ -474,7 +546,7 @@ public class weatherview extends Fragment {
         forecast4wind1 = (TextView) view.findViewById(R.id.forecast4wind1);
         forecast4wind2 = (TextView) view.findViewById(R.id.forecast4wind2);
 
-        forecast4day.setText(weekDays[(week+2)%7]);
+        forecast4day.setText(weekDays[(week + 2) % 7]);
         forecast4date.setText(sharedPreferences2.getString("forecast4date", "未知"));
         forecast4weather1.setText(sharedPreferences2.getString("forecast4weather1", "未知"));
         forecast4image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast4image1", "999"))));
@@ -496,7 +568,7 @@ public class weatherview extends Fragment {
         forecast5wind1 = (TextView) view.findViewById(R.id.forecast5wind1);
         forecast5wind2 = (TextView) view.findViewById(R.id.forecast5wind2);
 
-        forecast5day.setText(weekDays[(week+3)%7]);
+        forecast5day.setText(weekDays[(week + 3) % 7]);
         forecast5date.setText(sharedPreferences2.getString("forecast5date", "未知"));
         forecast5weather1.setText(sharedPreferences2.getString("forecast5weather1", "未知"));
         forecast5image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast5image1", "999"))));
@@ -518,7 +590,7 @@ public class weatherview extends Fragment {
         forecast6wind1 = (TextView) view.findViewById(R.id.forecast6wind1);
         forecast6wind2 = (TextView) view.findViewById(R.id.forecast6wind2);
 
-        forecast6day.setText(weekDays[(week+4)%7]);
+        forecast6day.setText(weekDays[(week + 4) % 7]);
         forecast6date.setText(sharedPreferences2.getString("forecast6date", "未知"));
         forecast6weather1.setText(sharedPreferences2.getString("forecast6weather1", "未知"));
         forecast6image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast6image1", "999"))));
@@ -535,12 +607,12 @@ public class weatherview extends Fragment {
         forecast7image1 = (ImageView) view.findViewById(R.id.forecast7image1);
         forecast7temp1 = (TextView) view.findViewById(R.id.forecast7temp1);
         forecast7temp2 = (TextView) view.findViewById(R.id.forecast7temp2);
-        forecast7image2 = (ImageView) view.findViewById(R.id.forecast7image2);
+        ImageView forecast7image2 = (ImageView) view.findViewById(R.id.forecast7image2);
         forecast7weather2 = (TextView) view.findViewById(R.id.forecast7weather2);
         forecast7wind1 = (TextView) view.findViewById(R.id.forecast7wind1);
         forecast7wind2 = (TextView) view.findViewById(R.id.forecast7wind2);
 
-        forecast7day.setText(weekDays[(week+5)%7]);
+        forecast7day.setText(weekDays[(week + 5) % 7]);
         forecast7date.setText(sharedPreferences2.getString("forecast7date", "未知"));
         forecast7weather1.setText(sharedPreferences2.getString("forecast7weather1", "未知"));
         forecast7image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast7image1", "999"))));

@@ -406,16 +406,16 @@ public class Today24HourView extends View {
 //        Log.d(TAG, "maxScrollOffset = " + maxScrollOffset + "  scrollOffset = " + scrollOffset);
         int x = getScrollBarX();
         int sum = MARGIN_LEFT_ITEM - ITEM_WIDTH / 2;
-        for (int i = 0; i < ITEM_SIZE; i++) {
+        for (int i = 0; i < ITEM_SIZE * 3; i++) {
             sum += ITEM_WIDTH;
             if (x < sum)
                 return i;
         }
-        return ITEM_SIZE - 1;
+        return ITEM_SIZE * 3 - 1;
     }
 
     private int getScrollBarX() {
-        int x = (ITEM_SIZE - 1) * ITEM_WIDTH * scrollOffset / maxScrollOffset;
+        int x = (ITEM_SIZE * 3 - 1) * ITEM_WIDTH * scrollOffset / maxScrollOffset;
 //        System.out.println("maxScrollOffset---getScrollBarX:" + maxScrollOffset);
         x = x + MARGIN_LEFT_ITEM;
         return x;
@@ -427,15 +427,15 @@ public class Today24HourView extends View {
         int sum = MARGIN_LEFT_ITEM;
         Point startPoint = null, endPoint;
         int i;
-        for (i = 0; i < ITEM_SIZE; i++) {
+        for (i = 0; i < ITEM_SIZE * 3; i++) {
             sum += ITEM_WIDTH;
             if (x < sum) {
                 startPoint = listItems.get(i).tempPoint;
                 break;
             }
         }
-        if (i + 1 >= ITEM_SIZE || startPoint == null)
-            return listItems.get(ITEM_SIZE - 1).tempPoint.y;
+        if (i + 1 >= ITEM_SIZE * 3 || startPoint == null)
+            return listItems.get(ITEM_SIZE * 3 - 1).tempPoint.y;
         endPoint = listItems.get(i + 1).tempPoint;
 
         Rect rect = listItems.get(i).windyBoxRect;

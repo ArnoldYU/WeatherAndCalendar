@@ -118,6 +118,20 @@ public class Utility {
             JSONArray daily_forecast = (JSONArray) first_object.get("daily_forecast");
             String cityName = basic.getString("city");
 
+            //获得出行建议
+            JSONObject suggestion = (JSONObject) first_object.get("suggestion");
+            JSONObject suggestion_comf = (JSONObject) suggestion.get("comf");
+            JSONObject suggestion_drsg = (JSONObject)suggestion.get("drsg");
+            JSONObject suggestion_flu = (JSONObject)suggestion.get("flu");
+            JSONObject suggestion_sport = (JSONObject)suggestion.get("sport");
+            JSONObject suggestion_trav = (JSONObject) suggestion.get("trav");
+
+            String suggestion_comf_txt = suggestion_comf.getString("txt");
+            String suggestion_drsg_txt = suggestion_drsg.getString("txt");
+            String suggestion_flu_txt = suggestion_flu.getString("txt");
+            String suggestion_sport_txt = suggestion_sport.getString("txt");
+            String suggestion_trav_txt = suggestion_trav.getString("txt");
+
             JSONObject daily_forecast_first = (JSONObject) daily_forecast.get(0);
             JSONObject daily_forecast_second = (JSONObject) daily_forecast.get(1);
             JSONObject daily_forecast_third = (JSONObject) daily_forecast.get(2);
@@ -139,23 +153,37 @@ public class Utility {
             String forecastwind2;
             int lala;
             for (int i = 0; i < 7; i++) {
-                lala=i+1;
-                switch (i){
-                    case 0:nowday = daily_forecast_first;break;
-                    case 1:nowday = daily_forecast_second;break;
-                    case 2:nowday = daily_forecast_third;break;
-                    case 3:nowday = daily_forecast_fourth;break;
-                    case 4:nowday = daily_forecast_fifth;break;
-                    case 5:nowday = daily_forecast_sixth;break;
-                    case 6:nowday = daily_forecast_seventh;break;
+                lala = i + 1;
+                switch (i) {
+                    case 0:
+                        nowday = daily_forecast_first;
+                        break;
+                    case 1:
+                        nowday = daily_forecast_second;
+                        break;
+                    case 2:
+                        nowday = daily_forecast_third;
+                        break;
+                    case 3:
+                        nowday = daily_forecast_fourth;
+                        break;
+                    case 4:
+                        nowday = daily_forecast_fifth;
+                        break;
+                    case 5:
+                        nowday = daily_forecast_sixth;
+                        break;
+                    case 6:
+                        nowday = daily_forecast_seventh;
+                        break;
                     default:
                 }
 //                System.out.println("noday:"+nowday.getString("date"));
                 forecastdate = nowday.getString("date");
                 forecastdate = forecastdate.substring(5);
-                JSONObject forecastcond = (JSONObject)nowday.get("cond");
-                JSONObject forecasttmp = (JSONObject)nowday.get("tmp");
-                JSONObject forecastwind = (JSONObject)nowday.get("wind");
+                JSONObject forecastcond = (JSONObject) nowday.get("cond");
+                JSONObject forecasttmp = (JSONObject) nowday.get("tmp");
+                JSONObject forecastwind = (JSONObject) nowday.get("wind");
                 forecasttemp1 = forecasttmp.getString("max");
                 forecasttemp2 = forecasttmp.getString("min");
                 forecastweather1 = forecastcond.getString("txt_d");
@@ -163,17 +191,17 @@ public class Utility {
                 forecastweather2 = forecastcond.getString("txt_n");
                 forecastimage2 = forecastcond.getString("code_n");
                 forecastwind1 = forecastwind.getString("dir");
-                forecastwind2 = forecastwind.getString("sc")+"级";
+                forecastwind2 = forecastwind.getString("sc") + "级";
 
-                editor1.putString("forecast"+lala+"date",forecastdate);
-                editor1.putString("forecast"+lala+"temp1",forecasttemp1);
-                editor1.putString("forecast"+lala+"temp2",forecasttemp2);
-                editor1.putString("forecast"+lala+"weather1",forecastweather1);
-                editor1.putString("forecast"+lala+"image1",forecastimage1);
-                editor1.putString("forecast"+lala+"weather2",forecastweather2);
-                editor1.putString("forecast"+lala+"image2",forecastimage2);
-                editor1.putString("forecast"+lala+"wind1",forecastwind1);
-                editor1.putString("forecast"+lala+"wind2",forecastwind2);
+                editor1.putString("forecast" + lala + "date", forecastdate);
+                editor1.putString("forecast" + lala + "temp1", forecasttemp1);
+                editor1.putString("forecast" + lala + "temp2", forecasttemp2);
+                editor1.putString("forecast" + lala + "weather1", forecastweather1);
+                editor1.putString("forecast" + lala + "image1", forecastimage1);
+                editor1.putString("forecast" + lala + "weather2", forecastweather2);
+                editor1.putString("forecast" + lala + "image2", forecastimage2);
+                editor1.putString("forecast" + lala + "wind1", forecastwind1);
+                editor1.putString("forecast" + lala + "wind2", forecastwind2);
 
             }
             editor1.commit();
@@ -268,17 +296,20 @@ public class Utility {
             String updateTime = update.getString("loc");
 
             saveWeatherInfo(context, cityName, sunriseTime, sunsetTime, dayWeather, nightWeather, windText, pop, tempText, updateTime,
-                    tempText_tomorrow, dayWeather_tomorrow, code, code_tomorrow, hum, pres, mywind);
+                    tempText_tomorrow, dayWeather_tomorrow, code, code_tomorrow, hum, pres, mywind,suggestion_comf_txt,suggestion_drsg_txt,
+                    suggestion_flu_txt,suggestion_sport_txt,suggestion_trav_txt);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     private static void saveWeatherInfo(Context context, String cityName,
                                         String sunriseTime, String sunsetTime, String dayWeather, String nightWeather,
                                         String windText, String pop, String tempText, String updateTime, String tempText_tomorrow,
                                         String dayWeather_tomorrow, String code, String code_tomorrow, String hum, String pres,
-                                        String mywind) {
+                                        String mywind,String suggestion_comf_txt,String suggestion_drsg_txt,
+                                        String suggestion_flu_txt, String suggestion_sport_txt,String suggestion_trav_txt) {
 
         SharedPreferences.Editor editor = context.getSharedPreferences(cityName, Context.MODE_PRIVATE).edit();
         editor.putString("cityName", cityName);
@@ -297,6 +328,12 @@ public class Utility {
         editor.putString("hum", hum);
         editor.putString("pres", pres);
         editor.putString("updateTime", updateTime);
+        editor.putString("suggestion_comf_txt",suggestion_comf_txt);
+        editor.putString("suggestion_drsg_txt",suggestion_drsg_txt);
+        editor.putString("suggestion_flu_txt",suggestion_flu_txt);
+        editor.putString("suggestion_sport_txt",suggestion_sport_txt);
+        editor.putString("suggestion_trav_txt",suggestion_trav_txt);
+
         editor.commit();
     }
 

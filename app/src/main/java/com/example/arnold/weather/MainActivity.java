@@ -1,6 +1,5 @@
 package com.example.arnold.weather;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,10 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.arnold.weather.fragement.calendarviewall.calendarview;
-import com.example.arnold.weather.fragement.test;
-import com.example.arnold.weather.fragement.test2;
 import com.example.arnold.weather.fragement.weatherallview.weatherview;
-import com.example.arnold.weather.weathergetbyinternate.Activity.WeatherActivity;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -40,20 +36,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_weather:
                     vp1.setVisibility(View.VISIBLE);
                     vp2.setVisibility(View.GONE);
-//                    vp3.setVisibility(View.GONE);
                     return true;
                 case R.id.navigation_calendar:
                     vp1.setVisibility(View.GONE);
                     vp2.setVisibility(View.VISIBLE);
-//                    vp3.setVisibility(View.GONE);
-                    return true;
-                case R.id.navigation_me:
-                    vp1.setVisibility(View.GONE);
-                    vp2.setVisibility(View.GONE);
-//                    vp3.setVisibility(View.VISIBLE);
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, WeatherActivity.class);
-                    startActivity(intent);
                     return true;
             }
             return false;
@@ -96,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         fragments2.add(new calendarview());
-        fragments3.add(new test());
+//        fragments3.add(new test());
 
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments1);
 //
@@ -113,15 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         vp2.setOnPageChangeListener(new PagerListener());
 
-//        adapter = new FragAdapter(getSupportFragmentManager(), fragments3);
-//
-//        vp3 = (ViewPager)findViewById(R.id.viewpager2);
-//        vp3.setAdapter(adapter);
-//
-//        vp3.setOnPageChangeListener(new PagerListener());
-
-
-//        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
