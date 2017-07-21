@@ -3,13 +3,16 @@ package com.example.arnold.weather;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.arnold.weather.fragement.calendarviewall.calendarview;
 import com.example.arnold.weather.fragement.weatherallview.weatherview;
@@ -20,9 +23,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button addcity;
+    private Button editcity;
     private ViewPager vp1;
     private ViewPager vp2;
-    private ViewPager vp3;
+    private DrawerLayout drawerLayout;
 
     private MenuItem menuItem;
     private BottomNavigationView navigation;
@@ -46,46 +51,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+    private ArrayList<Fragment> fragments1;
+    private ArrayList<Fragment> fragments2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer1);
 
         Bundle bundle;
+        fragments1 = new ArrayList<Fragment>();
+        fragments2 = new ArrayList<Fragment>();
 
-        List<Fragment> fragments1 = new ArrayList<Fragment>();
-        List<Fragment> fragments2 = new ArrayList<Fragment>();
-        List<Fragment> fragments3 = new ArrayList<Fragment>();
-
-        String cityname[]={"哈尔滨","北京"};
+        String cityname[] = {"哈尔滨", "北京", "石家庄"};
         String cityname1 = "北京";
         String cityname2 = "哈尔滨";
         String cityname3 = "石家庄";
 
-        for (int i=0;i<2;i++){
+        for (int i = 0; i < 3; i++) {
             bundle = new Bundle();
-            bundle.putString("City",cityname[i]);
+            bundle.putString("City", cityname[i]);
             fragments1.add(new weatherview());
             fragments1.get(i).setArguments(bundle);
         }
 
-//        bundle=new Bundle();
-//        bundle.putString("City", cityname1);
-//        fragments1.add(new test2());
-//        fragments1.get(0).setArguments(bundle);
-//        bundle=new Bundle();
-//        bundle.putString("City", cityname2);
-//        fragments1.add(new test2());
-//        fragments1.get(1).setArguments(bundle);
-
-
-
         fragments2.add(new calendarview());
-//        fragments3.add(new test());
 
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments1);
-//
 //        //设定适配器
         vp1 = (ViewPager) findViewById(R.id.viewpager);
         vp1.setAdapter(adapter);
@@ -100,6 +93,51 @@ public class MainActivity extends AppCompatActivity {
         vp2.setOnPageChangeListener(new PagerListener());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        final NavigationView headerView = (NavigationView) findViewById(R.id.navigation_view1);
+
+        View myheadview = headerView.getHeaderView(0);
+        addcity = (Button)myheadview.findViewById(R.id.addcity);
+        editcity = (Button)myheadview.findViewById(R.id.editcity);
+
+        addcity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("添加城市");
+                
+                drawerLayout.closeDrawers();
+            }
+        });
+
+        editcity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("编辑城市");
+                drawerLayout.closeDrawers();
+            }
+        });
+
+
+        headerView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                //在这里处理item的点击事件
+                switch (item.getItemId()) {
+                    case R.id.item_city1:
+                        vp1.setCurrentItem(0);
+                        drawerLayout.closeDrawers();
+                        return true;
+                    case R.id.item_city2:
+                        vp1.setCurrentItem(1);
+                        drawerLayout.closeDrawers();
+                        return true;
+                    case R.id.item_city3:
+                        vp1.setCurrentItem(2);
+                        drawerLayout.closeDrawers();
+                        return true;
+                }
+                return true;
+            }
+        });
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

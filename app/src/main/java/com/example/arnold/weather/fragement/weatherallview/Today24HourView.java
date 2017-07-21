@@ -85,7 +85,7 @@ public class Today24HourView extends View {
 
         public void mytest() {
             String mycode;
-            String cityname[] = {"哈尔滨1", "北京1"};
+            String cityname[] = {"哈尔滨1", "北京1","石家庄1"};
 
 
             sharedPreferences = Today24HourView.this.getContext().getSharedPreferences(cityname[setcityname], Context.MODE_PRIVATE);
