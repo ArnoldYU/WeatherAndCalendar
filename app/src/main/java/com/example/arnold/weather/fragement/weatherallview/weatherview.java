@@ -237,7 +237,7 @@ public class weatherview extends Fragment {
                     suggestion_flu.setVisibility(view.VISIBLE);
                     suggestion_sport.setVisibility(view.VISIBLE);
                     suggestion_trav.setVisibility(view.VISIBLE);
-                    sharebutton.setText("隐藏");
+                    suggestionbutton.setText("隐藏");
                     mode = false;
                 } else {
                     suggestion_comf.setVisibility(view.INVISIBLE);
@@ -245,7 +245,7 @@ public class weatherview extends Fragment {
                     suggestion_flu.setVisibility(view.INVISIBLE);
                     suggestion_sport.setVisibility(view.INVISIBLE);
                     suggestion_trav.setVisibility(view.INVISIBLE);
-                    sharebutton.setText("建议");
+                    suggestionbutton.setText("建议");
                     mode = true;
                 }
 

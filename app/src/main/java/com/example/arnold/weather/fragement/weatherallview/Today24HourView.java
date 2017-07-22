@@ -39,7 +39,9 @@ public class Today24HourView extends View {
     private static final int MARGIN_LEFT_ITEM = 100; //左边预留宽度
     private static final int MARGIN_RIGHT_ITEM = 100; //右边预留宽度
 
-    private static int setcityname = 0;
+    public static int setcityname = 0;
+    public static int setcitymo = 3;
+    public static ArrayList cityname = new ArrayList();
 
     private static final int windyBoxAlpha = 80;
     private static final int windyBoxMaxHeight = 80;
@@ -85,12 +87,18 @@ public class Today24HourView extends View {
 
         public void mytest() {
             String mycode;
-            String cityname[] = {"哈尔滨1", "北京1","石家庄1"};
+            if (cityname.size() == 0) {
+                cityname.add("哈尔滨1");
+                cityname.add("北京1");
+                cityname.add("石家庄1");
+                System.out.println("初始化城市列表");
+            }
 
 
-            sharedPreferences = Today24HourView.this.getContext().getSharedPreferences(cityname[setcityname], Context.MODE_PRIVATE);
-            System.out.println("city:   " + cityname[setcityname]);
+            sharedPreferences = Today24HourView.this.getContext().getSharedPreferences(cityname.get(setcityname).toString(), Context.MODE_PRIVATE);
+            System.out.println("city:   " + cityname.get(setcityname).toString());
             setcityname++;
+            setcityname = setcityname % setcitymo;
             System.out.println("dsasdasda" + sharedPreferences.getInt("hourly_forecast_length", 0));
             ITEM_SIZE = sharedPreferences.getInt("hourly_forecast_length", 0);
 
