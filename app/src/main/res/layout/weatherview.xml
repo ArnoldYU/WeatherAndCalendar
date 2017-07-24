@@ -598,18 +598,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast1image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast1temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast1image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:gravity="center"
@@ -674,18 +674,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast2image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast2temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast2image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:gravity="center"
@@ -750,18 +750,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast3image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast3temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast3image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:id="@+id/forecast3weather2"
@@ -825,18 +825,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast4image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast4temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast4image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:gravity="center"
@@ -902,18 +902,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast5image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast5temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast5image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:gravity="center"
@@ -978,18 +978,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast6image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast6temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast6image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:gravity="center"
@@ -1054,18 +1054,18 @@
                         android:layout_height="wrap_content"
                         android:text="TextView" />
 
-                    <ImageView
-                        android:id="@+id/forecast7image2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@mipmap/w2" />
-
                     <TextView
                         android:gravity="center"
                         android:id="@+id/forecast7temp2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/forecast7image2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@mipmap/w2" />
 
                     <TextView
                         android:gravity="center"
@@ -1095,7 +1095,7 @@
             <View
                 android:id="@+id/view5"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:background="#00000000"
                 tools:layout_editor_absoluteX="16dp" />
 

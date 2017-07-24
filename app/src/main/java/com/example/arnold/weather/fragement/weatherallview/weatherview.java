@@ -484,8 +484,8 @@ public class weatherview extends Fragment {
         forecast1date.setText(sharedPreferences2.getString("forecast1date", "未知"));
         forecast1weather1.setText(sharedPreferences2.getString("forecast1weather1", "未知"));
         forecast1image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast1image1", "999"))));
-        forecast1temp1.setText(sharedPreferences2.getString("forecast1image1", "未知"));
-        forecast1temp2.setText(sharedPreferences2.getString("forecast1temp2", "未知"));
+        forecast1temp1.setText(sharedPreferences2.getString("forecast1temp1", "未知") + "°");
+        forecast1temp2.setText(sharedPreferences2.getString("forecast1temp2", "未知") + "°");
         forecast1image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast1image2", "999"))));
         forecast1weather2.setText(sharedPreferences2.getString("forecast1weather2", "未知"));
         forecast1wind1.setText(sharedPreferences2.getString("forecast1wind1", "未知"));
@@ -506,8 +506,8 @@ public class weatherview extends Fragment {
         forecast2date.setText(sharedPreferences2.getString("forecast2date", "未知"));
         forecast2weather1.setText(sharedPreferences2.getString("forecast2weather1", "未知"));
         forecast2image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast2image1", "999"))));
-        forecast2temp1.setText(sharedPreferences2.getString("forecast2image1", "未知"));
-        forecast2temp2.setText(sharedPreferences2.getString("forecast2temp2", "未知"));
+        forecast2temp1.setText(sharedPreferences2.getString("forecast2temp1", "未知") + "°");
+        forecast2temp2.setText(sharedPreferences2.getString("forecast2temp2", "未知") + "°");
         forecast2image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast2image2", "999"))));
         forecast2weather2.setText(sharedPreferences2.getString("forecast1weather2", "未知"));
         forecast2wind1.setText(sharedPreferences2.getString("forecast2wind1", "未知"));
@@ -528,8 +528,8 @@ public class weatherview extends Fragment {
         forecast3date.setText(sharedPreferences2.getString("forecast3date", "未知"));
         forecast3weather1.setText(sharedPreferences2.getString("forecast3weather1", "未知"));
         forecast3image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast3image1", "999"))));
-        forecast3temp1.setText(sharedPreferences2.getString("forecast3mage1", "未知"));
-        forecast3temp2.setText(sharedPreferences2.getString("forecast3temp2", "未知"));
+        forecast3temp1.setText(sharedPreferences2.getString("forecast3temp1", "未知") + "°");
+        forecast3temp2.setText(sharedPreferences2.getString("forecast3temp2", "未知") + "°");
         forecast3image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast3image2", "999"))));
         forecast3weather2.setText(sharedPreferences2.getString("forecast3weather2", "未知"));
         forecast3wind1.setText(sharedPreferences2.getString("forecast3wind1", "未知"));
@@ -550,8 +550,8 @@ public class weatherview extends Fragment {
         forecast4date.setText(sharedPreferences2.getString("forecast4date", "未知"));
         forecast4weather1.setText(sharedPreferences2.getString("forecast4weather1", "未知"));
         forecast4image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast4image1", "999"))));
-        forecast4temp1.setText(sharedPreferences2.getString("forecast4image1", "未知"));
-        forecast4temp2.setText(sharedPreferences2.getString("forecast4temp2", "未知"));
+        forecast4temp1.setText(sharedPreferences2.getString("forecast4temp1", "未知") + "°");
+        forecast4temp2.setText(sharedPreferences2.getString("forecast4temp2", "未知") + "°");
         forecast4image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast4image2", "999"))));
         forecast4weather2.setText(sharedPreferences2.getString("forecast4weather2", "未知"));
         forecast4wind1.setText(sharedPreferences2.getString("forecast4wind1", "未知"));
@@ -572,8 +572,8 @@ public class weatherview extends Fragment {
         forecast5date.setText(sharedPreferences2.getString("forecast5date", "未知"));
         forecast5weather1.setText(sharedPreferences2.getString("forecast5weather1", "未知"));
         forecast5image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast5image1", "999"))));
-        forecast5temp1.setText(sharedPreferences2.getString("forecast5image1", "未知"));
-        forecast5temp2.setText(sharedPreferences2.getString("forecast5temp2", "未知"));
+        forecast5temp1.setText(sharedPreferences2.getString("forecast5temp1", "未知") + "°");
+        forecast5temp2.setText(sharedPreferences2.getString("forecast5temp2", "未知") + "°");
         forecast5image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast5image2", "999"))));
         forecast5weather2.setText(sharedPreferences2.getString("forecast5weather2", "未知"));
         forecast5wind1.setText(sharedPreferences2.getString("forecast5wind1", "未知"));
@@ -594,8 +594,8 @@ public class weatherview extends Fragment {
         forecast6date.setText(sharedPreferences2.getString("forecast6date", "未知"));
         forecast6weather1.setText(sharedPreferences2.getString("forecast6weather1", "未知"));
         forecast6image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast6image1", "999"))));
-        forecast6temp1.setText(sharedPreferences2.getString("forecast6image1", "未知"));
-        forecast6temp2.setText(sharedPreferences2.getString("forecast6temp2", "未知"));
+        forecast6temp1.setText(sharedPreferences2.getString("forecast6temp1", "未知") + "°");
+        forecast6temp2.setText(sharedPreferences2.getString("forecast6temp2", "未知") + "°");
         forecast6image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast6image2", "999"))));
         forecast6weather2.setText(sharedPreferences2.getString("forecast6weather2", "未知"));
         forecast6wind1.setText(sharedPreferences2.getString("forecast6wind1", "未知"));
@@ -616,8 +616,8 @@ public class weatherview extends Fragment {
         forecast7date.setText(sharedPreferences2.getString("forecast7date", "未知"));
         forecast7weather1.setText(sharedPreferences2.getString("forecast7weather1", "未知"));
         forecast7image1.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast7image1", "999"))));
-        forecast7temp1.setText(sharedPreferences2.getString("forecast7image1", "未知"));
-        forecast7temp2.setText(sharedPreferences2.getString("forecast7temp2", "未知"));
+        forecast7temp1.setText(sharedPreferences2.getString("forecast7temp1", "未知") + "°");
+        forecast7temp2.setText(sharedPreferences2.getString("forecast7temp2", "未知") + "°");
         forecast7image2.setBackgroundResource(returnbackground(Integer.valueOf(sharedPreferences2.getString("forecast7image2", "999"))));
         forecast7weather2.setText(sharedPreferences2.getString("forecast7weather2", "未知"));
         forecast7wind1.setText(sharedPreferences2.getString("forecast7wind1", "未知"));

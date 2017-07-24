@@ -14,4 +14,38 @@
         android:icon="@drawable/sunup"
         android:title="石家庄" />
 
+    <item
+        android:visible="false"
+        android:id="@+id/item_city4"
+        android:icon="@drawable/sunup"
+        android:title="哈尔滨" />
+    <item
+        android:visible="false"
+        android:id="@+id/item_city5"
+        android:icon="@drawable/sunup"
+        android:title="北京" />
+    <item
+        android:visible="false"
+        android:id="@+id/item_city6"
+        android:icon="@drawable/sunup"
+        android:title="石家庄" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/item_city7"
+        android:icon="@drawable/sunup"
+        android:title="哈尔滨" />
+    <item
+        android:visible="false"
+        android:id="@+id/item_city8"
+        android:icon="@drawable/sunup"
+        android:title="北京" />
+    <item
+        android:visible="false"
+        android:id="@+id/item_city9"
+        android:icon="@drawable/sunup"
+        android:title="石家庄" />
+
+
+
 </menu>

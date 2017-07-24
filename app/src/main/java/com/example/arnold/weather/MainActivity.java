@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
@@ -19,9 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 
 import com.example.arnold.weather.fragement.calendarviewall.calendarview;
 import com.example.arnold.weather.fragement.weatherallview.Today24HourView;
@@ -33,7 +37,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private String addselectcity;
-
+    private Button button;
+    private EditText editText;
     private PopupWindow popupWindow;
     private FragmentManager myfragmentmanager = getFragmentManager();
     private Button addcity;
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer1);
 
+
         Bundle bundle;
         fragments1 = new ArrayList<Fragment>();
         fragments2 = new ArrayList<Fragment>();
@@ -115,10 +121,12 @@ public class MainActivity extends AppCompatActivity {
         addcity = (Button) myheadview.findViewById(R.id.addcity);
         editcity = (Button) myheadview.findViewById(R.id.editcity);
 
+
+
         addcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (i==10){//最多9个页面
+                if (i == 10) {//最多9个页面
                     drawerLayout.closeDrawers();
                     return;
                 }
@@ -156,20 +164,55 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.item_city1:
                         vp1.setCurrentItem(0);
+                        Today24HourView.setcityname = 0;
                         drawerLayout.closeDrawers();
                         return true;
                     case R.id.item_city2:
                         vp1.setCurrentItem(1);
+                        Today24HourView.setcityname = 1;
                         drawerLayout.closeDrawers();
                         return true;
                     case R.id.item_city3:
                         vp1.setCurrentItem(2);
+                        Today24HourView.setcityname = 2;
                         drawerLayout.closeDrawers();
                         return true;
+//                    case R.id.item_city4:
+//                        vp1.setCurrentItem(3);
+//                        Today24HourView.setcityname = 3;
+//                        drawerLayout.closeDrawers();
+//                        return true;
+//                    case R.id.item_city5:
+//                        vp1.setCurrentItem(4);
+//                        Today24HourView.setcityname = 4;
+//                        drawerLayout.closeDrawers();
+//                        return true;
+//                    case R.id.item_city6:
+//                        vp1.setCurrentItem(5);
+//                        Today24HourView.setcityname = 5;
+//                        drawerLayout.closeDrawers();
+//                        return true;
+//                    case R.id.item_city7:
+//                        vp1.setCurrentItem(6);
+//                        Today24HourView.setcityname = 6;
+//                        drawerLayout.closeDrawers();
+//                        return true;
+//                    case R.id.item_city8:
+//                        vp1.setCurrentItem(7);
+//                        Today24HourView.setcityname = 7;
+//                        drawerLayout.closeDrawers();
+//                        return true;
+//                    case R.id.item_city9:
+//                        vp1.setCurrentItem(8);
+//                        Today24HourView.setcityname = 8;
+//                        drawerLayout.closeDrawers();
+//                        return true;
                 }
                 return true;
             }
         });
+
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
@@ -280,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
 //        backgroundAlpha(1f);
     }
 
+    //固定城市的选择
     private void setButtonListeners(LinearLayout layout) {
 
         Button nocity = (Button) layout.findViewById(R.id.cityno);
@@ -307,6 +351,19 @@ public class MainActivity extends AppCompatActivity {
         final TextView city17 = (TextView) layout.findViewById(R.id.city17);
         final TextView city18 = (TextView) layout.findViewById(R.id.city18);
 
+        button = (Button)layout.findViewById(R.id.button);
+        editText = (EditText)layout.findViewById(R.id.editText);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = editText.getText().toString();
+                //这里需要一个判断城市合法性的函数 暂时认为输入的城市都是合法的城市
+                addselectcity = name;
+                addcity();
+            }
+        });
+
         nocity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -321,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addselectcity = city1.getText().toString();
-                addcity ();
+                addcity();
             }
 
         });
@@ -329,133 +386,143 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addselectcity = city2.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city3.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city4.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city5.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city6.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city7.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city8.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city9.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city10.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city11.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city12.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city13.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city14.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city15.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city16.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city17.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city17.getText().toString();
-                addcity ();
+                addcity();
             }
         });
         city18.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addselectcity = city18.getText().toString();
-                addcity ();
+                addcity();
             }
         });
     }
-    public void addcity () {
-        Today24HourView.setcitymo++;
-        Today24HourView.cityname.add(addselectcity+"1");
 
+    public void addcity() {
+        Menu menu;
+        Today24HourView.setcitymo++;
+        Today24HourView.cityname.add(addselectcity + "1");
+        Today24HourView.setcityname = i;
         headerView.getMenu().add(addselectcity).setIcon(R.drawable.a100).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            int choice = i;
+
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                popupWindow.dismiss();
+                vp1.setCurrentItem(choice);
+                Today24HourView.setcityname = choice;
+                drawerLayout.closeDrawers();
                 return true;
             }
+
+
         });
+//        headerView.getMenu().getItem(i).setTitle(addselectcity);
+//        headerView.getMenu().getItem(i).setVisible(true);
         popupWindow.dismiss();
         vp1.removeAllViewsInLayout();
         Bundle bundle;
@@ -467,8 +534,8 @@ public class MainActivity extends AppCompatActivity {
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments1);
         vp1.setAdapter(adapter);
         vp1.setOnPageChangeListener(new PagerListener());
-
         drawerLayout.closeDrawers();
-        vp1.setCurrentItem(i-1);
+        vp1.setCurrentItem(i - 1);
     }
+
 }
