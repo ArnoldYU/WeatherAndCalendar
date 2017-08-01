@@ -253,7 +253,6 @@ public class Utility {
 //                System.out.println(level);
                 editor.putString("hourly_wind" + i, String.valueOf(level));
 //                WeatherActivity.weatherList.add(weather);
-                test2.weatherList.add(weather);
                 weatherview.weatherList.add(weather);
             }
             editor.putInt("hourly_forecast_length", hourly_forecast.length());

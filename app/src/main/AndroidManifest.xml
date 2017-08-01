@@ -48,11 +48,15 @@
         <activity android:name=".weathergetbyinternate.Activity.WeatherActivity">
 
         </activity>
-        <receiver android:name=".fragement.calendarviewall.AlarmReceiver"
-            android:process=":remote"/>
-        <!--<activity android:name=".fragement.test2">-->
-            <!---->
-        <!--</activity>-->
+
+        <activity android:name=".fragement.calendarviewall.ClockActivity">
+
+        </activity>
+
+
+        <!--<receiver-->
+            <!--android:name=".fragement.calendarviewall.AlarmReceiver"-->
+            <!--android:process=":remote"/>-->
     </application>
 
 </manifest>

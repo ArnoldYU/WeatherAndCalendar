@@ -121,7 +121,16 @@
     <ListView
         android:id="@+id/add_business_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="192dp"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:text="设置提醒"
+        app:layout_constraintRight_toLeftOf="@+id/textView"
+        tools:layout_editor_absoluteY="0dp" />
 </LinearLayout>

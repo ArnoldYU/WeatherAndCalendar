@@ -41,9 +41,11 @@ public class AddBusinessActivity extends AppCompatActivity {
     private Button no;
     private ListView listview;
     private SimpleAdapter adapter;
-
+    private AlarmManager alarmManager;
+    private PendingIntent pi;
     private Calendar c;
     private String date;
+    private Button button2;
 
     private boolean switchsituation;
 
@@ -70,7 +72,7 @@ public class AddBusinessActivity extends AppCompatActivity {
         getbusiness_name = (EditText) findViewById(R.id.getbusinessname);
         getbusiness_location = (EditText) findViewById(R.id.myeditext);
 
-
+        button2 = (Button) findViewById(R.id.button2);
         c = Calendar.getInstance();
         String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         String M = Integer.toString(c.get(Calendar.YEAR));
@@ -281,7 +283,9 @@ public class AddBusinessActivity extends AppCompatActivity {
                 OrderDao.insert(BusinessDate, business_name, startdate, enddate, business_location);
                 AddBusinessActivity.this.setResult(RESULT_CANCELED, AddBusinessActivity.this.getIntent().putExtras(bundle));
                 AddBusinessActivity.this.finish();
-                startRemind(startdate);
+//                startRemind(startdate);
+//                bindViews();
+//                mytest();
 
                 finish();
             }
@@ -298,10 +302,46 @@ public class AddBusinessActivity extends AppCompatActivity {
             }
         });
 
+        button2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                bindViews();
+                mytest();
+            }
+        });
+
+    }
+
+    private void bindViews() {
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(AddBusinessActivity.this, ClockActivity.class);
+        pi = PendingIntent.getActivity(AddBusinessActivity.this, 0, intent, 0);
+
     }
 
     public void mytest() {
-
+        Calendar currentTime = Calendar.getInstance();
+        new TimePickerDialog(AddBusinessActivity.this, 0,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view,
+                                          int hourOfDay, int minute) {
+                        //设置当前时间
+                        Calendar c = Calendar.getInstance();
+                        c.setTimeInMillis(System.currentTimeMillis());
+                        // 根据用户选择的时间来设置Calendar对象
+                        c.set(Calendar.HOUR, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+                        // ②设置AlarmManager在Calendar对应的时间启动Activity
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+                        Log.e("HEHE", c.getTimeInMillis() + "");   //这里的时间是一个unix时间戳
+                        // 提示闹钟设置完毕:
+                        Toast.makeText(AddBusinessActivity.this, "闹钟设置完毕~" + c.getTimeInMillis(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime
+                .get(Calendar.MINUTE), false).show();
     }
 
     private List<Map<String, Object>> getData() {
@@ -346,42 +386,45 @@ public class AddBusinessActivity extends AppCompatActivity {
         }
     }
 
-    private void startRemind(String begintime) {
-        System.out.println(begintime);
-        String[] time = begintime.split("   ");
-        String[] year = time[0].split("年");
-        String[] month = year[1].split("月");
-        String[] day = month[1].split("日");
-        String[] hour = time[1].split(":");
-
-        Calendar mCalendar = Calendar.getInstance();
-        mCalendar.setTimeInMillis(System.currentTimeMillis());
-
-        mCalendar.add(Calendar.SECOND, 10);
-
-        System.out.println("compare1");
-        Log.d("compare1", String.valueOf(mCalendar.getTime()));
-        //mCalendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-//        mCalendar.set(Calendar.YEAR, Integer.parseInt(year[0]));
-//        mCalendar.set(Calendar.MONTH, Integer.parseInt(month[0]) - 1);
-//        mCalendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day[0]));
-//        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour[0]));
-//        mCalendar.set(Calendar.MINUTE, Integer.parseInt(hour[1]) - 1);
-//        mCalendar.set(Calendar.SECOND, 0);
-//        mCalendar.set(Calendar.MILLISECOND, 0);
-        Log.d("compare2", String.valueOf(mCalendar.getTime()));
-
-        System.out.println(mCalendar);
-
-
-        Intent intent = new Intent(AddBusinessActivity.this, AlarmReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(AddBusinessActivity.this, 0, intent, 0);
-
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        am.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), sender);
-        System.out.println("System.out.println(mCalendar.getTimeInMillis());");
-        System.out.println(mCalendar.getTimeInMillis());
-    }
+//    private void startRemind(String begintime) {
+//        System.out.println(begintime);
+//        String[] time = begintime.split("   ");
+//        String[] year = time[0].split("年");
+//        String[] month = year[1].split("月");
+//        String[] day = month[1].split("日");
+//        String[] hour = time[1].split(":");
+//
+//        Calendar mCalendar = Calendar.getInstance();
+//
+//        mCalendar.setTimeInMillis(System.currentTimeMillis());
+//
+//        System.out.println(mCalendar);
+//
+//        mCalendar.add(Calendar.SECOND, 5);
+//
+////        Log.d("compare1", String.valueOf(mCalendar.getTime()));
+//        //mCalendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+////        mCalendar.set(Calendar.YEAR, Integer.parseInt(year[0]));
+////        mCalendar.set(Calendar.MONTH, Integer.parseInt(month[0]) - 1);
+////        mCalendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day[0]));
+////        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour[0]));
+////        mCalendar.set(Calendar.MINUTE, Integer.parseInt(hour[1]) - 1);
+////        mCalendar.set(Calendar.SECOND, 0);
+////        mCalendar.set(Calendar.MILLISECOND, 0);
+////        Log.d("compare2", String.valueOf(mCalendar.getTime()));
+//
+//        System.out.println(mCalendar);
+//
+//
+//        Intent intent = new Intent(AddBusinessActivity.this, AlarmReceiver.class);
+//        PendingIntent sender = PendingIntent.getBroadcast(AddBusinessActivity.this, 0, intent, 0);
+//
+//        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//        am.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), sender);
+//
+//        System.out.println("System.out.println(mCalendar.getTimeInMillis());");
+//        System.out.println(mCalendar.getTimeInMillis());
+//    }
 
 }
